@@ -13,9 +13,9 @@ import Prelude
 
 translateCFG :: CFG Inst -> String
 translateCFG cfg =
-  "for (var b;;) {\nswitch (b) {\n" <>
+  "for (var b;;) switch (b) {\n" <>
   foldMap (translateB <*> allIs `flip` cfg) (allBs cfg) <>
-  "}\n}\n"
+  "}\n"
 
 translateB :: BID -> List (IID /\ Inst) -> String
 translateB bid is =
