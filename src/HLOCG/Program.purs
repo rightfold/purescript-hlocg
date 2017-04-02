@@ -16,19 +16,19 @@ data Type
 data Inst
   = ConstI32 Int
   | ConstF64 Number
-  | AddI IID IID
-  | AddF IID IID
-  | Ret IID
+  | AddI Type IID IID
+  | AddF Type IID IID
+  | Ret Type IID
 
 instance iInst :: I Inst where
   targets (ConstI32 _) = Set.empty
   targets (ConstF64 _) = Set.empty
-  targets (AddI _ _)   = Set.empty
-  targets (AddF _ _)   = Set.empty
-  targets (Ret _)      = Set.empty
+  targets (AddI _ _ _) = Set.empty
+  targets (AddF _ _ _) = Set.empty
+  targets (Ret _ _)    = Set.empty
 
   operands (ConstI32 _) = Set.empty
   operands (ConstF64 _) = Set.empty
-  operands (AddI a b)   = Set.fromFoldable [a, b]
-  operands (AddF a b)   = Set.fromFoldable [a, b]
-  operands (Ret x)      = Set.singleton x
+  operands (AddI _ a b) = Set.fromFoldable [a, b]
+  operands (AddF _ a b) = Set.fromFoldable [a, b]
+  operands (Ret _ x)    = Set.singleton x
