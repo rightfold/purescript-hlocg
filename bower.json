@@ -1,0 +1,7 @@
+{
+  "name": "purescript-hlocg",
+  "dependencies": {
+    "purescript-ssa": "git@github.com:rightfold/purescript-ssa.git",
+    "purescript-sets": "^3.0.0"
+  }
+}
