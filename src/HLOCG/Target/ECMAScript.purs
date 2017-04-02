@@ -13,7 +13,7 @@ import Prelude
 
 translateCFG :: CFG Inst -> String
 translateCFG cfg =
-  "let b;\nfor (;;) {\nswitch (b) {\n" <>
+  "for (let b;;) {\nswitch (b) {\n" <>
   foldMap (translateB <*> allIs `flip` cfg) (allBs cfg) <>
   "}\n}\n"
 
