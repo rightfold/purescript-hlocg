@@ -6,5 +6,10 @@
     "purescript-foldable-traversable": "^3.0.0",
     "purescript-prelude": "^3.0.0",
     "purescript-tuples": "^4.0.0"
+  },
+  "devDependencies": {
+    "purescript-eff": "^3.0.0",
+    "purescript-console": "^3.0.0",
+    "purescript-maybe": "^3.0.0"
   }
 }
