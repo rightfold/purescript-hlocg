@@ -19,11 +19,19 @@ main = traverse_ (log <<< translateCFG) example
 example :: Maybe (CFG Inst)
 example = do
   cfg <- pure CFG.empty
-  y        <- pure $ EntryBID
+
+  x        <- pure $ EntryBID
+  y /\ cfg <- pure $ CFG.addB cfg
   z /\ cfg <- pure $ CFG.addB cfg
-  a /\ cfg <- CFG.addI y (ConstI32 1)   cfg
-  b /\ cfg <- CFG.addI y (ConstI32 2)   cfg
-  c /\ cfg <- CFG.addI y (AddI I32 a b) cfg
-  _ /\ cfg <- CFG.addI y (Goto z)       cfg
-  _ /\ cfg <- CFG.addI z (Ret I32 c)    cfg
+
+  a /\ cfg <- CFG.addI x (ConstI32 1)      cfg
+  b /\ cfg <- CFG.addI x (ConstI32 2)      cfg
+  c /\ cfg <- CFG.addI x (AddI I32 a b)    cfg
+  d /\ cfg <- CFG.addI x (ConstBool false) cfg
+  _ /\ cfg <- CFG.addI x (If d y z)        cfg
+
+  _ /\ cfg <- CFG.addI y (Goto z)          cfg
+
+  _ /\ cfg <- CFG.addI z (Ret I32 c)       cfg
+
   pure cfg
