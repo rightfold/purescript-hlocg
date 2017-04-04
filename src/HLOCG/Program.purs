@@ -4,6 +4,7 @@ module HLOCG.Program
   , OnOverflow(..)
   ) where
 
+import Data.List (List)
 import Data.Set as Set
 import Data.SSA.CFG (class I, BID, IID)
 
@@ -13,6 +14,7 @@ data Type
   | Bool
   | I32
   | F64
+  | Func (List Type) Type
 
 -- | Instruction.
 data Inst
