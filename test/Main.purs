@@ -37,7 +37,8 @@ example = do
 
   _ /\ cfg <- CFG.addI y (Ret I32 c)       cfg
 
-  e /\ cfg <- CFG.addI z (Call I32 a (b : c : d : Nil)) cfg
-  _ /\ cfg <- CFG.addI z (Ret I32 e)       cfg
+  e /\ cfg <- CFG.addI z (Lambda I32 ((I32 /\ a) : (I32 /\ b) : Nil) CFG.empty) cfg
+  f /\ cfg <- CFG.addI z (Call I32 e (c : d : Nil)) cfg
+  _ /\ cfg <- CFG.addI z (Ret I32 f)       cfg
 
   pure cfg
