@@ -5,6 +5,7 @@ module Test.Main
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE, log)
 import Data.Foldable (traverse_)
+import Data.List (List(Nil), (:))
 import Data.Maybe (Maybe)
 import Data.SSA.CFG (CFG, BID(..))
 import Data.SSA.CFG as CFG
@@ -36,7 +37,7 @@ example = do
 
   _ /\ cfg <- CFG.addI y (Ret I32 c)       cfg
 
-  e /\ cfg <- CFG.addI z (ConstI32 (-1))   cfg
+  e /\ cfg <- CFG.addI z (Call I32 a (b : c : d : Nil)) cfg
   _ /\ cfg <- CFG.addI z (Ret I32 e)       cfg
 
   pure cfg

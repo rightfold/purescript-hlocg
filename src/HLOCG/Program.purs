@@ -4,7 +4,7 @@ module HLOCG.Program
   , OnOverflow(..)
   ) where
 
-import Data.List (List)
+import Data.List (List, (:))
 import Data.Set as Set
 import Data.SSA.CFG (class I, BID, IID)
 
@@ -23,6 +23,7 @@ data Inst
   | ConstF64 Number
   | AddI OnOverflow Type IID IID
   | AddF Type IID IID
+  | Call Type IID (List IID)
   | If IID BID BID
   | Goto BID
   | Ret Type IID
@@ -42,6 +43,7 @@ instance iInst :: I Inst where
     OnOverflowGoto x    -> Set.singleton x
     OnOverflowUndefined -> Set.empty
   targets (AddF _ _ _)   = Set.empty
+  targets (Call _ _ _)   = Set.empty
   targets (If _ a b)     = Set.fromFoldable [a, b]
   targets (Goto x)       = Set.singleton x
   targets (Ret _ _)      = Set.empty
@@ -51,6 +53,7 @@ instance iInst :: I Inst where
   operands (ConstF64 _)   = Set.empty
   operands (AddI _ _ a b) = Set.fromFoldable [a, b]
   operands (AddF _ a b)   = Set.fromFoldable [a, b]
+  operands (Call _ a bs)  = Set.fromFoldable (a : bs)
   operands (If x _ _)     = Set.singleton x
   operands (Goto _)       = Set.empty
   operands (Ret _ x)      = Set.singleton x

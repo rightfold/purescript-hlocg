@@ -3,7 +3,7 @@ module HLOCG.Target.ECMAScript
   , translateInst
   ) where
 
-import Data.Foldable (foldMap)
+import Data.Foldable (foldMap, intercalate)
 import Data.List (List)
 import Data.SSA.CFG (BID(..), CFG, IID(..), allBs, allIs)
 import Data.Tuple (uncurry)
@@ -37,6 +37,7 @@ translateInst = go
       "}\n"
     OnOverflowUndefined -> var iid $ val a <> " + " <> val b <> " | 0"
   go iid (AddF _ a b)   = var iid $ val a <> " + " <> val b
+  go iid (Call _ a bs)  = var iid $ val a <> "(" <> intercalate ", " (map val bs) <> ")"
   go iid (If x a b)     = "b = " <> val x <> " ? " <> blk a <>
                                             " : " <> blk b <>
                          ";\ncontinue;\n"
