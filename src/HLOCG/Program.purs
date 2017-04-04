@@ -28,7 +28,7 @@ data Inst
 -- | Overflow policy.
 data OnOverflow
   = OnOverflowWrap
-  | OnOverflowJump BID
+  | OnOverflowGoto BID
   | OnOverflowUndefined
 
 instance iInst :: I Inst where
@@ -37,7 +37,7 @@ instance iInst :: I Inst where
   targets (ConstF64 _)   = Set.empty
   targets (AddI o _ _ _) = case o of
     OnOverflowWrap      -> Set.empty
-    OnOverflowJump x    -> Set.singleton x
+    OnOverflowGoto x    -> Set.singleton x
     OnOverflowUndefined -> Set.empty
   targets (AddF _ _ _)   = Set.empty
   targets (If _ a b)     = Set.fromFoldable [a, b]

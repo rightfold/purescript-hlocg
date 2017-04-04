@@ -27,7 +27,7 @@ example = do
 
   a /\ cfg <- CFG.addI w (ConstI32 1)      cfg
   b /\ cfg <- CFG.addI w (ConstI32 2)      cfg
-  let o = OnOverflowJump z
+  let o = OnOverflowGoto z
   c /\ cfg <- CFG.addI w (AddI o I32 a b)  cfg
   d /\ cfg <- CFG.addI w (ConstBool false) cfg
   _ /\ cfg <- CFG.addI w (If d x y)        cfg

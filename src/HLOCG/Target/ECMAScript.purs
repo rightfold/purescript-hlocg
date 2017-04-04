@@ -30,7 +30,7 @@ translateInst = go
   go iid (ConstF64 x)   = var iid $ show x
   go iid (AddI o _ a b) = case o of
     OnOverflowWrap      -> var iid $ val a <> " + " <> val b <> " | 0"
-    OnOverflowJump x    ->
+    OnOverflowGoto x    ->
       var iid (val a <> " + " <> val b) <>
       "if (" <> val iid <> " < -2147483648 || " <> val iid <> " > 2147483647) {\n" <>
       "b = " <> blk x <> ";\ncontinue;\n" <>
