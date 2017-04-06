@@ -6,18 +6,20 @@ import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE, log)
 import Data.Foldable (traverse_)
 import Data.List (List(Nil), (:))
+import Data.Map as Map
 import Data.Maybe (Maybe)
 import Data.SSA.CFG (CFG, BID(..))
 import Data.SSA.CFG as CFG
 import Data.Tuple.Nested ((/\))
+import HLOCG.Module (Global(..), Module(..))
 import HLOCG.Program (Inst(..), OnOverflow(..), Type(..))
-import HLOCG.Target.ECMAScript (translateCFG)
+import HLOCG.Target.ECMAScript (translateModule)
 import Prelude
 
 main :: ∀ eff. Eff (console :: CONSOLE | eff) Unit
-main = traverse_ (log <<< translateCFG) example
+main = traverse_ (log <<< translateModule) example
 
-example :: Maybe (CFG Inst)
+example :: Maybe Module
 example = do
   cfg <- pure CFG.empty
 
@@ -41,4 +43,4 @@ example = do
   f /\ cfg <- CFG.addI z (Call I32 e (c : d : Nil)) cfg
   _ /\ cfg <- CFG.addI z (Ret I32 f)       cfg
 
-  pure cfg
+  pure <<< Module <<< Map.singleton "f" <<< Program Any $ cfg

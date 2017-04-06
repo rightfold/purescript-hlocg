@@ -1,15 +1,29 @@
 module HLOCG.Target.ECMAScript
-  ( translateCFG
+  ( translateModule
+  , translateCFG
   , translateInst
   ) where
 
 import Data.Foldable (foldMap, intercalate)
 import Data.List (List)
+import Data.Map as Map
 import Data.SSA.CFG (BID(..), CFG, IID(..), allBs, allIs)
 import Data.Tuple (snd, uncurry)
 import Data.Tuple.Nested (type (/\))
+import HLOCG.Module (Global(..), Module(..))
 import HLOCG.Program (Inst(..), OnOverflow(..))
 import Prelude
+
+translateModule :: Module -> String
+translateModule (Module m) =
+  foldMap (uncurry translateGlobal) $
+    Map.toUnfoldable m :: List _
+
+translateGlobal :: String -> Global -> String
+translateGlobal n (Program _ p) =
+  "exports." <> n <> " = function() {\n" <>
+  translateCFG p <>
+  "};\n"
 
 translateCFG :: CFG Inst -> String
 translateCFG cfg =
