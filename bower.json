@@ -4,6 +4,7 @@
     "purescript-ssa": "git@github.com:rightfold/purescript-ssa.git",
     "purescript-sets": "^3.0.0",
     "purescript-foldable-traversable": "^3.0.0",
+    "purescript-maps": "^2.1.2",
     "purescript-prelude": "^3.0.0",
     "purescript-tuples": "^4.0.0",
     "purescript-lists": "^4.0.1"
